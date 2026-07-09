@@ -1,0 +1,70 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#neatcode-app {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.neatcode-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  cursor: grab;
+  user-select: none;
+}
+
+.neatcode-container:active {
+  cursor: grabbing;
+}
+
+.minimize-btn {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(30, 30, 50, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  padding: 0;
+  z-index: 10;
+}
+
+.neatcode-container:hover .minimize-btn {
+  opacity: 1;
+}
+
+.neatcode-minimized {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.neatcode-minimized:hover {
+  transform: scale(1.1);
+}
+
+.neatcode-minimized span {
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+}

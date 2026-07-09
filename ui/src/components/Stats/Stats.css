@@ -1,0 +1,161 @@
+.stats-panel {
+  background: rgba(15, 15, 25, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 14px;
+  width: 220px;
+  position: absolute;
+  bottom: 84px;
+  right: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.level-badge {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.coins {
+  font-size: 12px;
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.xp-bar-container {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  height: 6px;
+  margin-bottom: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.xp-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.xp-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.mood-analysis {
+  margin-bottom: 12px;
+}
+
+.confidence-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 4px;
+}
+
+.confidence-label strong {
+  color: white;
+}
+
+.confidence-bar-container {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  height: 5px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.confidence-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease, background 0.4s ease;
+}
+
+.confidence-bar.mood-happy,
+.confidence-bar.mood-excited,
+.confidence-bar.mood-celebrating {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.confidence-bar.mood-worried,
+.confidence-bar.mood-confused {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.confidence-bar.mood-sad,
+.confidence-bar.mood-crying {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.confidence-bar.mood-neutral,
+.confidence-bar.mood-thinking {
+  background: linear-gradient(90deg, #6366f1, #818cf8);
+}
+
+.reason-text {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.quick-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.achievements {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.achievement-badge {
+  font-size: 10px;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
