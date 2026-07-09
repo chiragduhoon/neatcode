@@ -57,5 +57,5 @@ Then reload the extension in `chrome://extensions` after changes.
 - Chrome Extension MV3
 - React 18 + Zustand
 - Vite 5
-- Groq API (llama3-8b — free tier)
-- Shadow DOM isolation (no style conflicts with LeetCode)
+- Groq API (llama-3.1-8b-instant — free tier)
+- Main-world Monaco bridge (content scripts can't see `window.monaco` directly)

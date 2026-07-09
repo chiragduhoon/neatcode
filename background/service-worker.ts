@@ -36,8 +36,60 @@ chrome.runtime.onMessage.addListener(
       );
       return true;
     }
+
+    if (message.type === "INJECT_BRIDGE") {
+      const tabId = _sender.tab?.id;
+      if (tabId == null) {
+        sendResponse({ ok: false });
+        return;
+      }
+      chrome.scripting
+        .executeScript({ target: { tabId }, world: "MAIN", func: monacoBridge })
+        .then(() => sendResponse({ ok: true }))
+        .catch((err) => sendResponse({ ok: false, error: err.message }));
+      return true;
+    }
   }
 );
+
+// Runs in the page's MAIN world, where LeetCode's Monaco global lives.
+// Content scripts run in an isolated world and cannot see window.monaco,
+// so this bridge polls the editor and relays code via postMessage.
+function monacoBridge() {
+  const win = window as unknown as {
+    __neatcodeBridge?: boolean;
+    monaco?: {
+      editor: {
+        getModels: () => Array<{ getValue: () => string; getLanguageId: () => string }>;
+      };
+    };
+  };
+  if (win.__neatcodeBridge) return;
+  win.__neatcodeBridge = true;
+
+  setInterval(() => {
+    try {
+      if (!win.monaco) return;
+      const models = win.monaco.editor.getModels();
+      if (!models.length) return;
+      const codeModel =
+        models.find((m) => {
+          const val = m.getValue();
+          return val.length > 10 && !val.startsWith("[");
+        }) ?? models[0];
+      window.postMessage(
+        {
+          source: "neatcode-bridge",
+          code: codeModel.getValue(),
+          language: codeModel.getLanguageId(),
+        },
+        "*"
+      );
+    } catch {
+      // Monaco not ready yet
+    }
+  }, 1500);
+}
 
 async function analyzeCode(req: AnalyzeRequest): Promise<AIAnalysis> {
   const data = await chrome.storage.local.get("settings");
@@ -56,7 +108,7 @@ async function analyzeCode(req: AnalyzeRequest): Promise<AIAnalysis> {
       Authorization: `Bearer ${settings.groqApiKey}`,
     },
     body: JSON.stringify({
-      model: "llama3-8b-8192",
+      model: "llama-3.1-8b-instant",
       messages: [
         {
           role: "system",
@@ -71,7 +123,8 @@ async function analyzeCode(req: AnalyzeRequest): Promise<AIAnalysis> {
   });
 
   if (!response.ok) {
-    throw new Error(`Groq API error: ${response.status}`);
+    // Bad key, rate limit, or model outage — keep the companion alive on heuristics
+    return fallbackAnalysis(req);
   }
 
   const json = await response.json();

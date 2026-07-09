@@ -34,11 +34,11 @@ function injectUI() {
   // Store container on window so ui/main.tsx can find it
   (window as unknown as Record<string, unknown>).__neatcode_container__ = container;
 
-  // Load React UI bundle
-  const script = document.createElement("script");
-  script.src = chrome.runtime.getURL("ui/index.js");
-  script.type = "module";
-  document.head.appendChild(script);
+  // Load the React UI in this isolated world — it needs chrome.storage and
+  // the container global, neither of which exists in the page's main world.
+  import(/* @vite-ignore */ chrome.runtime.getURL("ui/index.js")).catch((e) =>
+    console.error("[NeatCode] Failed to load UI:", e)
+  );
 
   // Load UI CSS
   const link = document.createElement("link");
@@ -126,6 +126,11 @@ setInterval(() => {
 function init() {
   if (!window.location.pathname.includes("/problems/")) return;
   injectUI();
+
+  // Ask the background worker to inject the main-world Monaco bridge
+  chrome.runtime
+    .sendMessage({ type: "INJECT_BRIDGE" })
+    .catch((e) => console.error("[NeatCode] Bridge injection failed:", e));
 
   const watcher = new EditorWatcher((state) => {
     lastTypingTime = Date.now();

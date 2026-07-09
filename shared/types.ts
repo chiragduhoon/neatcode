@@ -64,9 +64,10 @@ export type MessageType =
   | "SETTINGS_UPDATE"
   | "TEST_RESULT"
   | "GET_STATS"
-  | "GET_SETTINGS";
+  | "GET_SETTINGS"
+  | "INJECT_BRIDGE";
 
 export interface ExtensionMessage {
   type: MessageType;
-  payload: unknown;
+  payload?: unknown;
 }
