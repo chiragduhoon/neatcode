@@ -2,6 +2,12 @@
 
 Your AI coding companion on LeetCode. Watches your code, reacts emotionally, never spoils the answer.
 
+<img src="docs/popup.png" alt="NeatCode settings: free Groq API key, animation speed, speech frequency, mood sensitivity, XP panel" width="320" align="right">
+
+**How it behaves:** while you code on a LeetCode problem, NeatCode reads your editor, and an animated companion reacts to what you're doing: encouraging when you're close, nudging when you're stuck, celebrating when tests pass. It never writes the solution for you. The popup controls how chatty and reactive it is, and an XP panel tracks your streak.
+
+<br clear="right">
+
 ## Install (3 steps)
 
 ### 1. Build
